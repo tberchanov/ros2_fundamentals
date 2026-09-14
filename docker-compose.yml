@@ -1,0 +1,49 @@
+services:
+  ros2:
+    build:
+      context: ./docker
+      args:
+        UID: ${UID:-1000}
+        GID: ${GID:-1000}
+    image: ros2-jazzy-dev
+    container_name: ros2-jazzy-dev
+    volumes:
+      - ./ros2_ws:/ros2_ws
+      # Bind-mount so edits to docker/utils.sh take effect without rebuilding
+      # the image (it's normally baked in via COPY at build time).
+      - ./docker/utils.sh:/opt/utils.sh:ro
+      # For GUI apps (RViz, Gazebo, rqt):
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # Persist the VSCode server + extensions (clangd binary included)
+      # across container recreation (docker compose down/up, rebuilds).
+      - vscode-server:/home/devuser/.vscode-server
+    # GPU passthrough so Gazebo's GUI (OGRE/GLX) gets hardware-accelerated
+    # rendering instead of falling back to (broken/absent) software rendering.
+    # devuser's video/render group membership (matching /dev/dri/* ownership)
+    # is baked into the image in docker/Dockerfile.
+    #
+    # This host has hybrid graphics: Intel iGPU (card1/renderD128, PCI 00:02.0)
+    # and an NVIDIA dGPU (card2/renderD129, PCI 01:00.0). Only the Intel node is
+    # passed through — the container has Mesa userspace (drives Intel via the
+    # `iris` driver) but not the NVIDIA proprietary userspace libraries, so
+    # exposing card2 just makes Gazebo's EGL enumeration fail against it
+    # (`driver (null)`) before it gets to the working Intel device. If this
+    # moves to different hardware, re-check with: ls -la /dev/dri/by-path/
+    devices:
+      - /dev/dri/card1:/dev/dri/card1
+      - /dev/dri/renderD128:/dev/dri/renderD128
+    working_dir: /ros2_ws
+    # Host networking avoids DDS multicast/discovery issues between
+    # the container and other ROS2 nodes on your machine.
+    network_mode: host
+    stdin_open: true
+    tty: true
+
+    # --- For GUI apps (RViz, Gazebo, rqt) ---
+    environment:
+      - DISPLAY=${DISPLAY}
+      - QT_X11_NO_MITSHM=1
+
+volumes:
+  vscode-server:
+

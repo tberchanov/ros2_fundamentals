@@ -1,0 +1,11 @@
+- ros_topic_name: "air_pressure"
+  gz_topic_name: "air_pressure"
+  ros_type_name: "sensor_msgs/msg/FluidPressure"
+  gz_type_name: "gz.msgs.FluidPressure"
+  direction: GZ_TO_ROS
+
+- ros_topic_name: "altimeter"
+  gz_topic_name: "altimeter"
+  ros_type_name: "ros_gz_interfaces/msg/Altimeter"
+  gz_type_name: "gz.msgs.Altimeter"
+  direction: GZ_TO_ROS
