@@ -11,6 +11,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         git \
         ros-jazzy-rqt-graph \
         ros-jazzy-ros-gz \
+        ros-jazzy-teleop-twist-keyboard \
+        ros-jazzy-plotjuggler-ros \
     && rm -rf /var/lib/apt/lists/*
 
 RUN if [ ! -d /etc/ros/rosdep/sources.list.d ] || [ -z "$(ls -A /etc/ros/rosdep/sources.list.d 2>/dev/null)" ]; then \
