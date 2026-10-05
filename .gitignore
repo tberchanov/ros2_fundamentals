@@ -3,3 +3,4 @@ ros2_ws/install/
 ros2_ws/log/
 ros2_ws/src/*/compile_commands.json
 teach/
+ros2_ws/odom.csv

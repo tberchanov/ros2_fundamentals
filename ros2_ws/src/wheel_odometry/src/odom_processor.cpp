@@ -4,8 +4,8 @@
 #include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 #include <filesystem>
 #include <optional>
-#include <fstream>   // std::ofstream
-#include <iomanip>   // std::setprecision
+#include <fstream>
+#include <iomanip>
 
 class OdomProcessor : public rclcpp::Node
 {
