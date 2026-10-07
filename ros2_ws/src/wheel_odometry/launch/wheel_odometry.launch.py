@@ -17,13 +17,14 @@ def generate_launch_description():
     bridge_config_path = PathJoinSubstitution(
         [pkg_share, 'config', 'bridge.yaml'])
 
-    csv_path = LaunchConfiguration('csv_path')
+    run = LaunchConfiguration('run')
 
     return LaunchDescription([
         DeclareLaunchArgument(
-            'csv_path',
-            default_value='odom.csv',
-            description='Where odom_listener writes its CSV (relative = launch dir)'),
+            'run',
+            default_value='run',
+            description='Name prefix for the CSVs: <run>_odom.csv and <run>_truth.csv '
+                        '(relative = launch dir)'),
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gz_launch_path),
             launch_arguments={'gz_args': ['-r ', world_path]}.items(),
@@ -37,7 +38,15 @@ def generate_launch_description():
         Node(
             package='wheel_odometry',
             executable='odom_processor',
-            parameters=[{'csv_path': csv_path}],
+            parameters=[{'csv_path': [run, '_odom.csv'], 'use_sim_time': True}],
+            output='screen',
+        ),
+        Node(
+            package='wheel_odometry',
+            executable='odom_processor',
+            name='truth_processor',
+            remappings=[('/odom', '/ground_truth')],
+            parameters=[{'csv_path': [run, '_truth.csv'], 'use_sim_time': True}],
             output='screen',
         ),
     ])

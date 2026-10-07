@@ -12,11 +12,16 @@ find_package(nav_msgs REQUIRED)
 find_package(ros_gz_interfaces REQUIRED)
 find_package(tf2 REQUIRED)
 find_package(tf2_geometry_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
 add_executable(odom_processor src/odom_processor.cpp)
+add_executable(scripted_driver src/scripted_driver.cpp)
 ament_target_dependencies(odom_processor rclcpp nav_msgs ros_gz_interfaces tf2 tf2_geometry_msgs)
+ament_target_dependencies(scripted_driver rclcpp geometry_msgs)
 
 install(TARGETS odom_processor DESTINATION lib/${PROJECT_NAME})
+install(TARGETS scripted_driver DESTINATION lib/${PROJECT_NAME})
+install(PROGRAMS scripts/plot_odom.py DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

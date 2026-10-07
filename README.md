@@ -95,15 +95,15 @@ odometry to a CSV. Drive it by keyboard (`teleop_twist_keyboard`) or with
 `ros2 topic pub`.
 
 ```bash
-ros2 launch wheel_odometry wheel_odometry.launch.py csv_path:=run.csv
+ros2 launch wheel_odometry wheel_odometry.launch.py run:=keyboard   # keyboard_odom.csv, keyboard_truth.csv
 ros2 run teleop_twist_keyboard teleop_twist_keyboard   # second terminal
 ```
 
 <img src="ros2_ws/src/wheel_odometry/docs/gazebo_husky.png" alt="Gazebo Sim: Husky on the ground plane" width="600">
-<img src="ros2_ws/src/wheel_odometry/docs/rviz_odometry.png" alt="RViz: /odom arrows tracing a keyboard drive" width="600">
+<img src="ros2_ws/src/wheel_odometry/docs/rviz_odometry.png" alt="RViz: /odom arrows tracing the scripted 2 m square" width="600">
 
-Full run instructions and the RViz, PlotJuggler, and rqt_graph views are in
-[`ros2_ws/src/wheel_odometry/README.md`](ros2_ws/src/wheel_odometry/README.md).
+The scripted drive, the odometry-vs-truth plot, and the full run instructions
+are in [`ros2_ws/src/wheel_odometry/README.md`](ros2_ws/src/wheel_odometry/README.md).
 
 ## Custom aliases / shell helpers
 
