@@ -1,0 +1,3 @@
+[submodule "ros2_ws/src/lab-02-custom-robot-tberchanov"]
+	path = ros2_ws/src/lab-02-custom-robot-tberchanov
+	url = git@github.com:Autonomous-Intelligence-Group/lab-02-custom-robot-tberchanov.git

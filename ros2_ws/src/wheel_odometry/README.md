@@ -162,7 +162,6 @@ odom      -0.004  -0.017       360.4
 truth     -0.680   1.633       295.9
 
 final error (truth - odom): 1.783 m, -64.5 deg
-real turn / odom turn:      0.821
 ```
 
 - The straight segments agree. Each segment is approximately 2 m in the odometry

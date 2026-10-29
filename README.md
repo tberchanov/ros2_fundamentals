@@ -4,6 +4,60 @@ A Dockerized ROS 2 Jazzy workspace (Ubuntu 24.04) with GUI passthrough for
 Gazebo/RViz/rqt, used to work through ROS 2 fundamentals and simulated
 robots with sensors.
 
+## Clone
+
+This repository has a git submodule: `ros2_ws/src/lab-02-custom-robot-tberchanov`.
+Clone the repository and the submodule with one command:
+
+```bash
+git clone --recurse-submodules git@github.com:tberchanov/ros2_fundamentals.git
+```
+
+If you cloned without `--recurse-submodules`, the submodule directory is
+empty. To get the submodule code, run:
+
+```bash
+git submodule update --init --recursive
+```
+
+To make `git pull` also update the submodule, set this option one time:
+
+```bash
+git config submodule.recurse true
+```
+
+## Change the submodule
+
+The submodule is a separate repository. The parent repository records only
+the commit that the submodule points to. Thus, you must commit in two
+repositories, in this sequence:
+
+1. Commit and push in the submodule:
+
+   ```bash
+   cd ros2_ws/src/lab-02-custom-robot-tberchanov
+   git switch main            # after a clone, the submodule is on a detached HEAD
+   # make your changes
+   git add .
+   git commit -m "Your message"
+   git push
+   ```
+
+2. Commit the new submodule pointer in the parent repository:
+
+   ```bash
+   cd ../../..                # back to the repository root
+   git add ros2_ws/src/lab-02-custom-robot-tberchanov
+   git commit -m "Update lab-02 submodule"
+   git push
+   ```
+
+Push the submodule first. If you do not, the parent repository points to a
+commit that other people cannot get.
+
+To move the submodule to the newest commit on its remote, run
+`git submodule update --remote`, then do step 2.
+
 ## Quick start
 
 ```bash
@@ -40,7 +94,8 @@ source install/setup.bash
     └── src/
         ├── ros2_fundamentals_examples/   # minimal pub/sub (Python + C++)
         ├── gazebo_falling_box/           # Gazebo sim + sensor bridge
-        └── wheel_odometry/               # Husky diff-drive + /odom → CSV (Lab 1)
+        ├── wheel_odometry/               # Husky diff-drive + /odom → CSV (Lab 1)
+        └── lab-02-custom-robot-tberchanov/  # git submodule (Lab 2)
 ```
 
 `ros2_ws/` is bind-mounted into the container, so `build/`, `install/`, and
